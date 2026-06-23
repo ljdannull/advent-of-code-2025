@@ -223,3 +223,29 @@ total = 0
 for line in text.split():
   total += batteries(line, 12)
 print(total)
+
+# part 2, even better
+def batteries(n):
+  stack = []
+  for i, v in enumerate(n):
+    v = int(v)
+    if not stack:
+      stack.append(v)
+    elif 12 - len(stack) == len(n) - i:
+      stack.append(v)
+    elif v > stack[-1]:
+      while stack and v > stack[-1] and 12 - len(stack) < len(n) - i:
+        stack.pop()
+      stack.append(v)
+    elif len(stack) < 12:
+      stack.append(v)
+  total = 0
+  for i in stack:
+    total *= 10
+    total += i
+  return total
+
+total = 0
+for line in text.split():
+  total += batteries(line)
+print(total)
